@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .chat-box { width: 80%; max-width: 600px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 10px; }
+        .messages { max-height: 400px; overflow-y: scroll; border-bottom: 1px solid #ccc; margin-bottom: 10px; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 10px; }
+        .sent { background-color: #d1ffd6; text-align: right; }
+        .received { background-color: #d6e0ff; text-align: left; }
+        .message-input { display: flex; }
+        .message-input input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        .message-input button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="chat-box">
+    <h2>Chat with {{ recipient.username }}</h2>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <p>{{ message.content }}</p>
+                <small>{{ message.timestamp }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="message-input">
+            <input type="text" name="message" placeholder="Type your message here...">
+            <button type="submit">Send</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
